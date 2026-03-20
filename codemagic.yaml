@@ -2,21 +2,22 @@ workflows:
   unity-android-build:
     name: Unity Android Build
     instance_type: mac_mini_m2
-    max_build_duration: 60
+    max_build_duration: 120           # インストールで時間かかるので長めに
+    integrations:
+      unity:
+        version: 2022.3.62f2        # ← ここをf2にしてみる（f3→f2はほぼ互換性あり）
+        # または version: 2022.3.47f1 でもOK（安定してる）
     scripts:
-      - name: Install Unity
-        script: |
-          # 1. Unity Hubを使って指定バージョンをインストール
-          # changesetは 2022.3.62f3 用の公式な値です
-          unity-hub install --version 2022.3.62f3 --changeset 27b94a500b46 --module android
       - name: Build Android
         script: |
-          # 2. インストールされたパスを直接指定して実行
-          /Applications/Unity/Hub/Editor/2022.3.62f3/Unity.app/Contents/MacOS/Unity \
+          "$UNITY_HOME/Contents/MacOS/Unity" \
             -batchmode \
             -quit \
-            -projectPath DWeb/FISHTARGET \
+            -nographics \
+            -projectPath "DWeb/FISHTARGET" \
             -executeMethod BuildScript.BuildAndroid \
             -logFile /dev/stdout
     artifacts:
       - DWeb/FISHTARGET/build/android/*.apk
+      # 必要ならログもartifactに
+      - build.log
