@@ -1,16 +1,8 @@
 workflows:
   unity-android-build:
-    name: Unity Android Build
-    instance_type: mac_mini_m1
-    max_build_duration: 60
-    environment:
-      groups:
-        - unity
-      vars:
-        UNITY_BIN: /Applications/Unity/Hub/Editor/2022.3.10f1/Unity.app/Contents/MacOS/Unity
+    name: Check Unity Version
+    instance_type: mac_mini_m2
     scripts:
-      - name: Build Android
-        script: | 
-          $UNITY_BIN -batchmode -quit -projectPath DWeb/FISHTARGET -executeMethod BuildScript.BuildAndroid -logFile /dev/stdout
-    artifacts:
-      - DWeb/FISHTARGET/build/android/*.apk
+      - name: List Installed Unity
+        script: |
+          ls /Applications/Unity/Hub/Editor/
