@@ -6,15 +6,12 @@ workflows:
     scripts:
       - name: Install Unity
         script: |
-          # 1. codemagic公式ツールを「確実に実行できる場所」にインストール
-          pip install codemagic-cli-tools
-          
-          # 2. pythonから直接ツールを呼び出す（これが一番確実です）
-          python3 -m codemagic_cli_tools.unity.installer install --version 2022.3.62f3 --components android
+          # 1. Unity Hubを使って指定バージョンをインストール
+          # changesetは 2022.3.62f3 用の公式な値です
+          unity-hub install --version 2022.3.62f3 --changeset 27b94a500b46 --module android
       - name: Build Android
         script: |
-          # 3. インストールされたUnityを探して実行
-          # $UNITY_BIN が使えない場合に備え、フルパスで指定します
+          # 2. インストールされたパスを直接指定して実行
           /Applications/Unity/Hub/Editor/2022.3.62f3/Unity.app/Contents/MacOS/Unity \
             -batchmode \
             -quit \
