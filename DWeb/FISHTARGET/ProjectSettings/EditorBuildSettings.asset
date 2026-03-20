@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DO NOT CATCH!.unity
+    guid: 010a06f995ac4b841a61249dc77d6b25
+  - enabled: 1
+    path: Assets/Scenes/DO NOT CATCH! Game.unity
+    guid: 57bd659c31865cc4faf821b8980420d1
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 66789318d0e6e5e4cb85eb4ac1aec6a3
+  m_configObjects: {}
