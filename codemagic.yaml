@@ -3,9 +3,14 @@ workflows:
     name: Unity Android Build
     instance_type: mac_mini_m1
     max_build_duration: 60
+    environment:
+      groups:
+        - unity
+      vars:
+        UNITY_BIN: /Applications/Unity/Hub/Editor/2022.3.10f1/Unity.app/Contents/MacOS/Unity
     scripts:
       - name: Build Android
         script: | 
-          echo "Building..."
+          $UNITY_BIN -batchmode -quit -projectPath . -executeMethod BuildScript.BuildAndroid -logFile /dev/stdout
     artifacts:
       - build/android/*.apk
