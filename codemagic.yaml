@@ -1,6 +1,10 @@
-scripts:
-  - name: Install Unity
-    script: |
-      # 公式のunity-installerを使用します
-      pip install codemagic-cli-tools
-      unity-installer install --version 2022.3.62f3 --components android
+workflows:
+  unity-android-build:
+    instance_type: mac_mini_m2
+    # ここにUnityのバージョンを指定
+    unity: 2022.3.62f3 
+    scripts:
+      - name: Build Android
+        script: |
+          # インストール済みUnityのパスは環境変数 $UNITY_BIN に自動で入ります
+          $UNITY_BIN -batchmode -quit -projectPath DWeb/FISHTARGET -executeMethod BuildScript.BuildAndroid -logFile /dev/stdout
