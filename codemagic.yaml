@@ -1,23 +1,20 @@
-workflows:
-  unity-android-build:
-    name: Unity Android Build
-    instance_type: mac_mini_m2
-    max_build_duration: 120           # インストールで時間かかるので長めに
-    integrations:
-      unity:
-        version: 2022.3.62f2        # ← ここをf2にしてみる（f3→f2はほぼ互換性あり）
-        # または version: 2022.3.47f1 でもOK（安定してる）
-    scripts:
-      - name: Build Android
+ - name: Install specific Unity 2022.3.62f3
         script: |
-          "$UNITY_HOME/Contents/MacOS/Unity" \
-            -batchmode \
-            -quit \
-            -nographics \
-            -projectPath "DWeb/FISHTARGET" \
-            -executeMethod BuildScript.BuildAndroid \
-            -logFile /dev/stdout
-    artifacts:
-      - DWeb/FISHTARGET/build/android/*.apk
-      # 必要ならログもartifactに
-      - build.log
+          # Unity Hub CLIを使ってインストール
+          # まずchangesetが必要 → 公式リリースノートから探すか、以下のように指定
+          UNITY_VERSION="2022.3.62f3"
+          # changesetはUnityのリリースページから確認（例: https://unity.com/releases/editor/whats-new/2022.3.62 みたいなページ）
+          # 仮に changeset が abc123def だった場合
+          yes | /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub \
+            -- --headless install \
+            --version $UNITY_VERSION \
+            --changeset YOUR_CHANGESET_HERE \
+            -a arm64
+
+          # Androidモジュールも入れる場合
+          yes | /Applications/Unity\ Hub.app/Contents/MacOS/Unity\ Hub \
+            -- --headless install --version $UNITY_VERSION --changeset YOUR_CHANGESET_HERE \
+            --install-location "/Applications/Unity/Hub/Editor" \
+            -m Android
+
+          echo "UNITY_HOME=/Applications/Unity/Hub/Editor/$UNITY_VERSION/Unity.app" >> $CM_ENV
