@@ -6,12 +6,12 @@ workflows:
     scripts:
       - name: Install Unity
         script: |
-          # 1. ツールをインストール
+          # 1. ツールをインストール（--userを外してシステム側に入れます）
           pip install codemagic-cli-tools
           
-          # 2. インストール先を強制的にパスに追加し、コマンドを叩く
-          export PATH=$PATH:$(python3 -m site --user-base)/bin
-          unity-installer install --version 2022.3.62f3 --components android
+          # 2. インストールされた実行ファイルの場所を直接叩く
+          # pyenv環境下での標準的なパスを直接指定します
+          /Users/builder/.pyenv/versions/3.12.7/bin/unity-installer install --version 2022.3.62f3 --components android
       - name: Build Android
         script: |
           # インストール先を確認して実行
