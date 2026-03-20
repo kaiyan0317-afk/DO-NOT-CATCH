@@ -6,15 +6,15 @@ workflows:
     scripts:
       - name: Install Unity
         script: |
-          # 1. ツールをインストール（--userを外してシステム側に入れます）
+          # 1. codemagic公式ツールを「確実に実行できる場所」にインストール
           pip install codemagic-cli-tools
           
-          # 2. インストールされた実行ファイルの場所を直接叩く
-          # pyenv環境下での標準的なパスを直接指定します
-          /Users/builder/.pyenv/versions/3.12.7/bin/unity-installer install --version 2022.3.62f3 --components android
+          # 2. pythonから直接ツールを呼び出す（これが一番確実です）
+          python3 -m codemagic_cli_tools.unity.installer install --version 2022.3.62f3 --components android
       - name: Build Android
         script: |
-          # インストール先を確認して実行
+          # 3. インストールされたUnityを探して実行
+          # $UNITY_BIN が使えない場合に備え、フルパスで指定します
           /Applications/Unity/Hub/Editor/2022.3.62f3/Unity.app/Contents/MacOS/Unity \
             -batchmode \
             -quit \
