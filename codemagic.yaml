@@ -6,12 +6,12 @@ workflows:
     scripts:
       - name: Install Unity
         script: |
-          # 1. ツールをインストールし、直後に使えるようにする
-          pip install --upgrade pip
+          # 1. ツールをインストール
           pip install codemagic-cli-tools
           
-          # 2. パスを通さずに直接モジュールとして呼び出す
-          python3 -m unity_installer install --version 2022.3.62f3 --components android
+          # 2. インストール先を強制的にパスに追加し、コマンドを叩く
+          export PATH=$PATH:$(python3 -m site --user-base)/bin
+          unity-installer install --version 2022.3.62f3 --components android
       - name: Build Android
         script: |
           # インストール先を確認して実行
@@ -23,4 +23,3 @@ workflows:
             -logFile /dev/stdout
     artifacts:
       - DWeb/FISHTARGET/build/android/*.apk
-
